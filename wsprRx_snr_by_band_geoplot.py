@@ -23,10 +23,10 @@ dmax = 210202
 tmin = 0
 tmax = 2359
 
-host = "192.168.11.142"
+host = "yourIP"
 port = 22
 transport = paramiko.Transport((host, port)) 
-password = "radiopi599"
+password = "yourpassword"
 username = "pi"
 transport.connect(username = username, password = password)
 sftp = paramiko.SFTPClient.from_transport(transport)

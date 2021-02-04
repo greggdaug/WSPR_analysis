@@ -26,12 +26,10 @@ tmax = 2359
 searchcall = 'W6LVP'
 
 
-# fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-
-host = "192.168.11.142"
+host = "yourIP"
 port = 22
 transport = paramiko.Transport((host, port)) 
-password = "radiopi599"
+password = "yourpassword"
 username = "pi"
 transport.connect(username = username, password = password)
 sftp = paramiko.SFTPClient.from_transport(transport)
@@ -42,7 +40,6 @@ sftp.get(filepath, localpath)
 sftp.close()
 transport.close()
 
-# fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
 fname = r'C:\users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
 f=open(fname)
 
