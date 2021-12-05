@@ -17,12 +17,12 @@ import paramiko
 mygs = 'FN20'
 band = 'All'
 callsign = 'WB6YAZ'
-antenna = 'EWFD'
-dmin = 211130  
+antenna = 'EW FD'
+dmin = 211139  
 dmax = 211204
 tmin = 0
 tmax = 2359
-searchgrid = 'DM'
+searchgrid = 'CM'
 
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
@@ -53,12 +53,10 @@ i=0
 allLN=txt.splitlines(); # split by row
 for ln in allLN: # for every line
      tmp=ln.split()
-     str_list = list(filter(None, tmp))#remove spaces
-     if(len(str_list) >= 17):
+     str_list = list(filter(None, tmp))  #remove spaces
+     if(len(tmp) == 17):
          dates.append(float(str_list[0]))
-#         dates.append(str_list[0])
          time.append(float(str_list[1]))
-#         time.append(str_list[1])
          snr.append(float(str_list[2]))
          drift.append(str_list[3])
          freq.append(float(str_list[4]))
@@ -68,12 +66,39 @@ for ln in allLN: # for every line
          n1.append(str_list[8])
          n2.append(str_list[9])
          n3.append(str_list[10])
-     elif(len(str_list)) < 17:
-        print('bad line =',str_list)
+         n4.append(str_list[11])
+         n5.append(str_list[12])
+     # elif(len(str_list)) < 17:
+         # print('skipped line# =',i+1)
      i=i+1
 print('number of datapoints =',i)
 f.close()
 print('Number of skipped datapoints =',i-len(n3))
+
+# allLN=txt.splitlines(); # split by row
+# for ln in allLN: # for every line
+#      tmp=ln.split()
+#      str_list = list(filter(None, tmp))#remove spaces
+#      if(len(str_list) >= 15):
+#          dates.append(float(str_list[0]))
+# #         dates.append(str_list[0])
+#          time.append(float(str_list[1]))
+# #         time.append(str_list[1])
+#          snr.append(float(str_list[2]))
+#          drift.append(str_list[3])
+#          freq.append(float(str_list[4]))
+#          call.append(str_list[5])
+#          gs.append(str_list[6])
+#          pwr.append(str_list[7])
+#          n1.append(str_list[8])
+#          n2.append(str_list[9])
+#          n3.append(str_list[10])
+#      elif(len(str_list)) < 17:
+#         print('bad line =',str_list)
+#      i=i+1
+# print('number of datapoints =',i)
+# f.close()
+# print('Number of skipped datapoints =',i-len(n3))
 
 #datetimestr = []
 
@@ -102,19 +127,23 @@ wspr2gs = wspr2.gs.str.slice(0,2).astype('string')
 
 # wspr2 = wspr1.assign(date_time_str=str(xdt))
 
-df630m = wspr2.loc[(wspr2.freq < 0.48) & (wspr2.freq > 0.47) & (wspr2gs == searchgrid)]
-df160m = wspr2.loc[(wspr2.freq < 1.9) & (wspr2.freq > 1.8) & (wspr2gs == searchgrid)]
-df80m = wspr2.loc[(wspr2.freq < 3.6) & (wspr2.freq > 3.5) & (wspr2gs == searchgrid)]
-df40m = wspr2.loc[(wspr2.freq < 7.1) & (wspr2.freq > 6.9) & (wspr2gs == searchgrid)]
-df20m = wspr2.loc[(wspr2.freq < 14.1) & (wspr2.freq > 13.9) & (wspr2gs == searchgrid)]
-df15m = wspr2.loc[(wspr2.freq < 21.1) & (wspr2.freq > 21.0) & (wspr2gs == searchgrid)]   
-df10m = wspr2.loc[(wspr2.freq < 28.2) & (wspr2.freq > 28.0) & (wspr2gs == searchgrid)]
+df630m = wspr2.loc[(wspr2.freq < 0.48) & (wspr2.freq > 0.47)]
+df160m = wspr2.loc[(wspr2.freq < 1.9) & (wspr2.freq > 1.8)]
+df80m = wspr2.loc[(wspr2.freq < 3.6) & (wspr2.freq > 3.5)]
+df60m = wspr2.loc[(wspr2.freq < 5.3) & (wspr2.freq > 5.2)]
+df40m = wspr2.loc[(wspr2.freq < 7.1) & (wspr2.freq > 6.9)]
+df30m = wspr2.loc[(wspr2.freq < 10.2) & (wspr2.freq > 10.1)]
+df20m = wspr2.loc[(wspr2.freq < 14.1) & (wspr2.freq > 13.9)]
+df15m = wspr2.loc[(wspr2.freq < 21.1) & (wspr2.freq > 21.0)]   
+df10m = wspr2.loc[(wspr2.freq < 28.1) & (wspr2.freq > 28.0)]
 
 
-print('No of 630m points = ', len(df630m))
+# print('No of 630m points = ', len(df630m))
 print('No of 160m points = ', len(df160m))
 print('No of 80m points = ', len(df80m))
+print('No of 60m points = ', len(df60m))
 print('No of 40m points = ', len(df40m))
+print('No of 30m points = ', len(df30m))
 print('No of 20m points = ', len(df20m))
 print('No of 15m points = ', len(df15m))
 print('No of 10m points = ', len(df10m))
@@ -153,46 +182,46 @@ print('No of 10m points = ', len(df10m))
 
 # plt.legend()
 
-fig,ax=plt.subplots(2, figsize=(24,12))
+# fig,ax=plt.subplots(2, figsize=(24,12))
 
-if len(df630m) > 0:
-    ax[0].scatter(df630m.date_time, df630m.snr, marker='v', label='630m')
-    ax[1].scatter(df630m.time, df630m.snr, marker='v', label='630m')
+# if len(df630m) > 0:
+#     ax[0].scatter(df630m.date_time, df630m.snr, marker='v', label='630m')
+#     ax[1].scatter(df630m.time, df630m.snr, marker='v', label='630m')
 
-if len(df160m) > 0:
-    ax[0].scatter(df160m.date_time, df160m.snr, marker='^', label='160m')
-    ax[1].scatter(df160m.time, df160m.snr, marker='^', label='160m')
+# if len(df160m) > 0:
+#     ax[0].scatter(df160m.date_time, df160m.snr, marker='^', label='160m')
+#     ax[1].scatter(df160m.time, df160m.snr, marker='^', label='160m')
 
-if len(df80m) > 0:
-    ax[0].scatter(df80m.date_time, df80m.snr, marker='p', label='80m')
-    ax[1].scatter(df80m.time, df80m.snr, marker='p', label='80m')
+# if len(df80m) > 0:
+#     ax[0].scatter(df80m.date_time, df80m.snr, marker='p', label='80m')
+#     ax[1].scatter(df80m.time, df80m.snr, marker='p', label='80m')
 
-if len(df40m) > 0:
-    ax[0].scatter(df40m.date_time, df40m.snr, marker='*', label='40m')
-    ax[1].scatter(df40m.time, df40m.snr, marker='*', label='40m')
+# if len(df40m) > 0:
+#     ax[0].scatter(df40m.date_time, df40m.snr, marker='*', label='40m')
+#     ax[1].scatter(df40m.time, df40m.snr, marker='*', label='40m')
     
-if len(df20m) > 0:
-    ax[0].scatter(df20m.date_time, df20m.snr, marker='x', label='20m')
-    ax[1].scatter(df20m.time, df20m.snr, marker='x', label='20m')
+# if len(df20m) > 0:
+#     ax[0].scatter(df20m.date_time, df20m.snr, marker='x', label='20m')
+#     ax[1].scatter(df20m.time, df20m.snr, marker='x', label='20m')
     
-if len(df15m) > 0:
-    ax[0].scatter(df15m.date_time, df15m.snr, marker='s', label='15m')
-    ax[1].scatter(df15m.time, df15m.snr, marker='s', label='15m')
+# if len(df15m) > 0:
+#     ax[0].scatter(df15m.date_time, df15m.snr, marker='s', label='15m')
+#     ax[1].scatter(df15m.time, df15m.snr, marker='s', label='15m')
     
-if len(df10m) > 0:
-    ax[0].scatter(df10m.date_time, df10m.snr, marker='P', label='10m')
-    ax[1].scatter(df10m.time, df10m.snr, marker='P', label='10m')
+# if len(df10m) > 0:
+#     ax[0].scatter(df10m.date_time, df10m.snr, marker='P', label='10m')
+#     ax[1].scatter(df10m.time, df10m.snr, marker='P', label='10m')
 
-ax[0].grid(linestyle='-', linewidth=0.5)
-ax[1].grid(linestyle='-', linewidth=0.5)
-ax[0].legend()
-ax[1].legend()
+# ax[0].grid(linestyle='-', linewidth=0.5)
+# ax[1].grid(linestyle='-', linewidth=0.5)
+# ax[0].legend()
+# ax[1].legend()
 
-ax[0].set_title('WSPR Rx (%s) from grid %sxx: Dmin=%d, Dmax=%d, Time(Z)=%d-%d, Freq=%s, Ant=%s' % (callsign,searchgrid,dmin,dmax,tmin,tmax,'All',antenna))
-ax[0].set_xlabel('Date')
-ax[1].set_xlabel('Time')
-ax[0].set_ylabel('SNR')
-ax[1].set_ylabel('SNR')
+# ax[0].set_title('WSPR Rx (%s) from grid %sxx: Dmin=%d, Dmax=%d, Time(Z)=%d-%d, Freq=%s, Ant=%s' % (callsign,searchgrid,dmin,dmax,tmin,tmax,'All',antenna))
+# ax[0].set_xlabel('Date')
+# ax[1].set_xlabel('Time')
+# ax[0].set_ylabel('SNR')
+# ax[1].set_ylabel('SNR')
 
 # plt.xticks(rotation=90)
 

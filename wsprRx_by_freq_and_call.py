@@ -18,29 +18,15 @@ import paramiko
 mygs = 'FN20'
 band = 'All'
 callsign = 'WB6YAZ'
-antenna = 'Longwire'
-dmin = 210103   
-dmax = 210130 
+antenna = 'EWFD'
+dmin = 211130   
+dmax = 211204 
 tmin = 0
 tmax = 2359
 searchcall = 'W6LVP'
 
 
-host = "yourIP"
-port = 22
-transport = paramiko.Transport((host, port)) 
-password = "yourpassword"
-username = "pi"
-transport.connect(username = username, password = password)
-sftp = paramiko.SFTPClient.from_transport(transport)
-filepath = '/home/pi/.local/share/WSJT-X/ALL_WSPR.TXT'
-localpath = r'C:\Users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
-#sftp.put(localpath, filepath)
-sftp.get(filepath, localpath)
-sftp.close()
-transport.close()
-
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
 f=open(fname)
 
 txt=f.read()

@@ -1,8 +1,8 @@
 # WSPR_analysis
-Graphical display and search of local WSPR data.
+Analysis of local WSPR data.
 
-Optional: Labview used to call Python and for displaying WSPR text data.
+Anaconda / Spyder for python analysis routines
 
-Pandas, Geopandas, pyhamtools and paramiko added to Anaconda.
+Labview vis for Python analysis and displaying WSPR text data.
 
-Clicking on data point prints info in spyder ipython console.
+See: wspr_python_spots_analysis_120521.pdf for examples

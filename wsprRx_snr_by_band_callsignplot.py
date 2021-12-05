@@ -16,30 +16,17 @@ import paramiko
 
 #%%
 mygs = 'FN20'
-band = '40m'
+band = '10m'
 callsign = 'WB6YAZ'
-antenna = 'Longwire'
-dmin = 210103   
-dmax = 210104 
+antenna = 'EWFD'
+dmin = 211130
+dmax = 211204
 tmin = 0
 tmax = 2300
 
-host = "yourIP"
-port = 22
-transport = paramiko.Transport((host, port)) 
-password = "yourpassword"
-username = "pi"
-transport.connect(username = username, password = password)
-sftp = paramiko.SFTPClient.from_transport(transport)
-filepath = '/home/pi/.local/share/WSJT-X/ALL_WSPR.TXT'
-localpath = r'C:\Users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
-#sftp.put(localpath, filepath)
-sftp.get(filepath, localpath)
-sftp.close()
-transport.close()
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
 
 f=open(fname)
 
@@ -105,7 +92,7 @@ query_str_80m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (3
 query_str_40m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (6.9,7.1,dmin,dmax,tmin,tmax)
 query_str_20m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (13.9,14.1,dmin,dmax,tmin,tmax)
 query_str_15m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (21.0,21.1,dmin,dmax,tmin,tmax)
-query_str_10m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (28.0,28.1,dmin,dmax,tmin,tmax)
+query_str_10m='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (28.0,28.2,dmin,dmax,tmin,tmax)
 
 subsetwspr1_630m=wspr1.query(query_str_630m)
 subsetwspr1_160m=wspr1.query(query_str_160m)
@@ -144,7 +131,7 @@ print('number of 80m datapoints =', len(subsort_80m.call))
 print('number of 40m datapoints =', len(subsort_40m.call))
 print('number of 20m datapoints =', len(subsort_20m.call))
 print('number of 15m datapoints =', len(subsort_15m.call))
-print('number of 10m datapoints =', len(subsort_20m.call))
+print('number of 10m datapoints =', len(subsort_10m.call))
 
 #%%
 print()

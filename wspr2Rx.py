@@ -14,18 +14,18 @@ mygs = 'FN20'
 band = '40m'
 callsign = 'WB6YAZ'
 antenna1 = 'Longwire'
-antenna2 = 'EW FD'
-dmin = 210901   
-dmax = 210901 
+antenna2 = 'EWFD'
+dmin = 210917   
+dmax = 210917 
 tmin = 0
 tmax = 2300
-searchcall = 'N5GG'
+searchcall = 'KC2TER'
 
-fname1 = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_longwire_091121.TXT'
+fname1 = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_longwire_091921.TXT'
 f1=open(fname1)
 txt1=f1.read()
 
-fname2 = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_091121.TXT'
+fname2 = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_091921.TXT'
 f2=open(fname2)
 txt2=f2.read()
 

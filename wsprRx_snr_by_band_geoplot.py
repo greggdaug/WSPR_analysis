@@ -10,35 +10,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from shapely.geometry import Point #,LineString,Polygon
 import paramiko
-# from pyproj import CRS
+from pyproj import CRS
 
 #%%
 
 mygs = 'FN20wb'
-band = '40m'
+band = '20m'
 callsign = 'WB6YAZ'
-antenna = 'Longwire'
-dmin = 210201
-dmax = 210202
+antenna = 'EWFD'
+dmin = 211130
+dmax = 211204
 tmin = 0
 tmax = 2359
 
-host = "yourIP"
-port = 22
-transport = paramiko.Transport((host, port)) 
-password = "yourpassword"
-username = "pi"
-transport.connect(username = username, password = password)
-sftp = paramiko.SFTPClient.from_transport(transport)
-filepath = '/home/pi/.local/share/WSJT-X/ALL_WSPR.TXT'
-localpath = r'C:\Users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
-#sftp.put(localpath, filepath)
-sftp.get(filepath, localpath)
-sftp.close()
-transport.close()
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\data\ALL_WSPR_cpy.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
 f=open(fname)
 
 #%%
@@ -75,7 +62,7 @@ elif band == '12m':
     fmax = 24.1
 elif band == '10m':
     fmin = 28.0
-    fmax = 28.1
+    fmax = 28.2
 elif band == '6m':
     fmin = 50.2
     fmax = 50.3
@@ -98,9 +85,11 @@ mypts=[Point(gpspoint[1],gpspoint[0]) for gpspoint in mygpsloc]
 d = {'myloc':[ 1 ]}
 df = pd.DataFrame(data=d)
 
-crs = {'init': 'epsg:4326'}
+# crs = {'init':'epsg:4326'}
+crs = {'init':'EPSG:4326'}
 # crs='EPSG:4326'
 # crs_4326 = CRS('EPSG:4326')
+# crs = CRS('EPSG:4326')
 
 df=gpd.GeoDataFrame(df, crs=crs, geometry=mypts)
 # df = gpd.GeoDataFrame(df, crs=crs, geometry=mypts)
@@ -144,8 +133,8 @@ for ln in allLN: # for every line
          n3.append(str_list[10])
          n4.append(str_list[11])
          n5.append(str_list[12])
-     elif(len(str_list)) < 17:
-         print('skipped line# =',i+1)
+     # elif(len(str_list)) < 17:
+         # print('skipped line# =',i+1)
      i=i+1
 print('number of datapoints =',i)
 f.close()
@@ -163,6 +152,8 @@ query_str='%f <= freq <= %f and %f <= dates <= %f and %f <= time <= %f' % (fmin,
 subsetwspr=wspr.query(query_str)
 subsetwspr1=wspr1.query(query_str)
 
+print('Number of %s datapoints = %d' % (band, len(subsetwspr)))
+
 #%%
 # world=gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
@@ -178,11 +169,14 @@ world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
 data = gpd.read_file(fp)
 
-data.apply(lambda x: ax.annotate(text=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
+# data.apply(lambda x: ax.annotate(text=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
+data.apply(lambda x: ax.annotate(s=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
+
 
 plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9)
 gf=gpd.GeoDataFrame(subsetwspr, crs=crs, geometry='pts')
-ax=world.plot(alpha = .5,ax=ax)
+ax=world.plot(alpha = 0.5,ax=ax)
+
 #world.boundary.plot(ax=ax, edgecolor='dodgerblue', lw=0.75)
 data.boundary.plot(ax=ax, color='black', lw=0.1)
 
