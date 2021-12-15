@@ -17,16 +17,16 @@ import paramiko
 mygs = 'FN20'
 band = 'All'
 callsign = 'WB6YAZ'
-antenna = 'EW FD'
+antenna = 'EWFD'
 dmin = 211139  
 dmax = 211204
-tmin = 0
-tmax = 2359
-searchgrid = 'CM'
+# tmin = 0
+# tmax = 2359
+# searchgrid = 'CM'
 
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120921.TXT'
 f=open(fname)
 
 txt=f.read()
@@ -130,23 +130,26 @@ wspr2gs = wspr2.gs.str.slice(0,2).astype('string')
 df630m = wspr2.loc[(wspr2.freq < 0.48) & (wspr2.freq > 0.47)]
 df160m = wspr2.loc[(wspr2.freq < 1.9) & (wspr2.freq > 1.8)]
 df80m = wspr2.loc[(wspr2.freq < 3.6) & (wspr2.freq > 3.5)]
-df60m = wspr2.loc[(wspr2.freq < 5.3) & (wspr2.freq > 5.2)]
+df60m = wspr2.loc[(wspr2.freq < 5.4) & (wspr2.freq > 5.2)]
 df40m = wspr2.loc[(wspr2.freq < 7.1) & (wspr2.freq > 6.9)]
 df30m = wspr2.loc[(wspr2.freq < 10.2) & (wspr2.freq > 10.1)]
 df20m = wspr2.loc[(wspr2.freq < 14.1) & (wspr2.freq > 13.9)]
 df15m = wspr2.loc[(wspr2.freq < 21.1) & (wspr2.freq > 21.0)]   
-df10m = wspr2.loc[(wspr2.freq < 28.1) & (wspr2.freq > 28.0)]
+df10m = wspr2.loc[(wspr2.freq < 28.2) & (wspr2.freq > 28.0)]
 
+
+print('Start date:', wspr1['dates'][0])
+print('End date:', wspr1['dates'][len(wspr1)-1])
 
 # print('No of 630m points = ', len(df630m))
-print('No of 160m points = ', len(df160m))
-print('No of 80m points = ', len(df80m))
-print('No of 60m points = ', len(df60m))
-print('No of 40m points = ', len(df40m))
-print('No of 30m points = ', len(df30m))
-print('No of 20m points = ', len(df20m))
-print('No of 15m points = ', len(df15m))
-print('No of 10m points = ', len(df10m))
+print('No of 160m spots = ', len(df160m))
+print('No of 80m spots = ', len(df80m))
+print('No of 60m spots = ', len(df60m))
+print('No of 40m spots = ', len(df40m))
+print('No of 30m spots = ', len(df30m))
+print('No of 20m spots = ', len(df20m))
+print('No of 15m spots = ', len(df15m))
+print('No of 10m spots = ', len(df10m))
 
 # df40m.plot(kind='scatter', x='date_time', y='snr')
 

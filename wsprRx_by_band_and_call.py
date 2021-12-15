@@ -20,7 +20,7 @@ tmin = 0
 tmax = 2300
 searchcall = 'W6LVP'
 
-fname = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
+fname = r'C:\Users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120921.TXT'
 f=open(fname)
 
 txt=f.read()

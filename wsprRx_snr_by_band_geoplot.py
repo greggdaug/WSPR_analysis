@@ -15,17 +15,17 @@ from pyproj import CRS
 #%%
 
 mygs = 'FN20wb'
-band = '20m'
+band = '10m'
 callsign = 'WB6YAZ'
 antenna = 'EWFD'
 dmin = 211130
-dmax = 211204
+dmax = 211209
 tmin = 0
 tmax = 2359
 
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120921.TXT'
 f=open(fname)
 
 #%%
@@ -170,7 +170,7 @@ world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 data = gpd.read_file(fp)
 
 # data.apply(lambda x: ax.annotate(text=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
-data.apply(lambda x: ax.annotate(s=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
+data.apply(lambda x: ax.annotate(text=x.Name, xy=x.geometry.centroid.coords[0], ha='center', fontfamily='sans-serif', fontsize=6, fontweight='ultralight'),axis=1)
 
 
 plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9)
@@ -180,8 +180,8 @@ ax=world.plot(alpha = 0.5,ax=ax)
 #world.boundary.plot(ax=ax, edgecolor='dodgerblue', lw=0.75)
 data.boundary.plot(ax=ax, color='black', lw=0.1)
 
-vmin=subsetwspr.min()['snr'];
-vmax=subsetwspr.max()['snr']
+vmin=subsetwspr.min(numeric_only=True)['snr']
+vmax=subsetwspr.max(numeric_only=True)['snr']
 
 gf.plot(column='snr',ax=ax,cmap='jet',markersize=10,vmin=vmin, vmax=vmax,picker=2)
 df.plot(ax=ax,marker='x',color='r',markersize=25)

@@ -16,17 +16,17 @@ import paramiko
 
 #%%
 mygs = 'FN20'
-band = '10m'
+band = '15m'
 callsign = 'WB6YAZ'
 antenna = 'EWFD'
 dmin = 211130
-dmax = 211204
+dmax = 211209
 tmin = 0
 tmax = 2300
 
 
 # fname = 'C:\\users\\gregg\\Documents\\Python\\wspr_analysis\\ALL_WSPR.TXT'
-fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_120421.TXT'
+fname = r'C:\users\gregg\Documents\Python\wspr_analysis\ALL_WSPR_ewfd_121521.TXT'
 
 f=open(fname)
 
